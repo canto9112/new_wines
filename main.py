@@ -1,6 +1,14 @@
 from http.server import HTTPServer, SimpleHTTPRequestHandler
 from jinja2 import Environment, FileSystemLoader, select_autoescape
 import datetime
+import pandas
+from pprint import pprint
+
+
+excel_data_df = pandas.read_excel('wine.xlsx', sheet_name='list1')
+excel_wine = excel_data_df.to_dict(orient='record')
+
+pprint(excel_wine)
 
 
 def work_years(year):
