@@ -19,8 +19,13 @@ def get_second_wines(file):
     for wine in excel_wines:
         category = wine['Категория']
         wines[category].append(wine)
-    pprint(wines)
-    return wines
+    categories = []
+    products = []
+    for key, value in wines.items():
+        categories.append(key)
+        products.append(value)
+    products_numbers = len(products[:])
+    return categories, products[:], products_numbers
 
 
 def work_years(year):
@@ -29,7 +34,7 @@ def work_years(year):
     return years_work
 
 
-def get_years_index_html(year):
+def get_index_html(year, categories, products, products_numbers):
     env = Environment(
         loader=FileSystemLoader('.'),
         autoescape=select_autoescape(['html', 'xml'])
@@ -37,11 +42,10 @@ def get_years_index_html(year):
 
     template = env.get_template('template.html')
 
-    wines_first_file = get_first_wines('wine.xlsx')
-    wines_second_file = get_second_wines('wine2.xlsx')
     rendered_page = template.render(
         years=year,
-        wines=wines_first_file
+        categories=categories,
+        products=products[products_numbers]
     )
     with open('index.html', 'w', encoding="utf8") as file:
         file.write(rendered_page)
@@ -50,8 +54,12 @@ def get_years_index_html(year):
 if __name__ == '__main__':
     foundation_year = 1920
     years_work = work_years(foundation_year)
+    categories, products, products_numbers = get_second_wines('wine2.xlsx')
 
-    get_years_index_html(years_work)
+    for number in range(0, products_numbers):
+        print(number)
+        get_index_html(years_work, categories, products, number)
+        break
 
     server = HTTPServer(('0.0.0.0', 8000), SimpleHTTPRequestHandler)
     server.serve_forever()
