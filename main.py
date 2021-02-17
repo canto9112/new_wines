@@ -2,13 +2,25 @@ from http.server import HTTPServer, SimpleHTTPRequestHandler
 from jinja2 import Environment, FileSystemLoader, select_autoescape
 import datetime
 import pandas
+import collections
 from pprint import pprint
 
 
-def get_wines(file):
-    excel_data_df = pandas.read_excel(file, sheet_name='list1')
+def get_first_wines(file):
+    excel_data_df = pandas.read_excel(file, sheet_name='Лист1')
     excel_wine = excel_data_df.to_dict(orient='record')
     return excel_wine
+
+
+def get_second_wines(file):
+    excel_data_df = pandas.read_excel(file, sheet_name='Лист1')
+    excel_wines = excel_data_df.to_dict(orient='record')
+    wines = collections.defaultdict(list)
+    for wine in excel_wines:
+        category = wine['Категория']
+        wines[category].append(wine)
+    pprint(wines)
+    return wines
 
 
 def work_years(year):
@@ -24,22 +36,15 @@ def get_years_index_html(year):
     )
 
     template = env.get_template('template.html')
-    wines = get_wines('wine.xlsx')
+
+    wines_first_file = get_first_wines('wine.xlsx')
+    wines_second_file = get_second_wines('wine2.xlsx')
     rendered_page = template.render(
         years=year,
-        wines=wines
+        wines=wines_first_file
     )
     with open('index.html', 'w', encoding="utf8") as file:
         file.write(rendered_page)
-
-
-# wines = get_wines('wine.xlsx')
-# pprint(wines)
-# for wine in wines:
-#     wine_name = wine['Название']
-#     sort_wine = wine['Сорт']
-#     price_wine = wine['Цена']
-#     image_wine = wine['Картинка']
 
 
 if __name__ == '__main__':
