@@ -6,8 +6,8 @@ import pandas
 from jinja2 import Environment, FileSystemLoader, select_autoescape
 
 
-def get_products(file, sheet_name):
-    excel_data_df = pandas.read_excel(file, sheet_name=sheet_name)
+def get_products(file, table_sheet_name):
+    excel_data_df = pandas.read_excel(file, sheet_name=table_sheet_name)
     excel_products = excel_data_df.to_dict(orient='record')
     products = collections.defaultdict(list)
     for product in excel_products:
