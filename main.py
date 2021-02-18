@@ -16,10 +16,9 @@ def get_products(file, table_sheet_name):
     return products
 
 
-def get_work_years(year):
-    years_now = datetime.datetime.now()
-    work_years = years_now.year - year
-    return work_years
+def get_experience_of_work_years(year):
+    current_year = datetime.datetime.now()
+    return current_year.year - year
 
 
 def rendered_index_html(year, wines):
@@ -41,10 +40,10 @@ if __name__ == '__main__':
     products_file = 'wine3.xlsx'
     sheet_name = 'Лист1'
 
-    years_work = get_work_years(foundation_year)
+    experience_years = get_experience_of_work_years(foundation_year)
     wines = get_products(products_file, sheet_name)
 
-    rendered_index_html(years_work, wines)
+    rendered_index_html(experience_years, wines)
 
     server = HTTPServer(('0.0.0.0', 8000), SimpleHTTPRequestHandler)
     server.serve_forever()
