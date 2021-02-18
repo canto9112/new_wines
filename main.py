@@ -35,7 +35,7 @@ def fetch_index_html(experience_years, all_products, template_name, homepage, pa
         file.write(rendered_page)
 
 
-if __name__ == '__main__':
+def main():
     foundation_year = 1920
     products_file = 'wine3.xlsx'
     sheet_name = 'Лист1'
@@ -46,7 +46,11 @@ if __name__ == '__main__':
     experience_years = get_experience_of_work_years(foundation_year)
     products = get_products(products_file, sheet_name)
 
-    fetch_index_html(experience_years, products, template_name, homepage_name)
+    fetch_index_html(experience_years, products, template_name, homepage_name, file_path)
 
     server = HTTPServer(('0.0.0.0', 8000), SimpleHTTPRequestHandler)
     server.serve_forever()
+
+
+if __name__ == '__main__':
+    main()
