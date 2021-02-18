@@ -1,15 +1,9 @@
-from http.server import HTTPServer, SimpleHTTPRequestHandler
-from jinja2 import Environment, FileSystemLoader, select_autoescape
-import datetime
-import pandas
 import collections
-from pprint import pprint
+import datetime
+from http.server import HTTPServer, SimpleHTTPRequestHandler
 
-
-def get_first_wines(file):
-    excel_data_df = pandas.read_excel(file, sheet_name='Лист1')
-    excel_wine = excel_data_df.to_dict(orient='record')
-    return excel_wine
+import pandas
+from jinja2 import Environment, FileSystemLoader, select_autoescape
 
 
 def get_wines(file):
@@ -22,10 +16,10 @@ def get_wines(file):
     return wines
 
 
-def work_years(year):
+def get_work_years(year):
     years_now = datetime.datetime.now()
-    years_work = years_now.year - year
-    return years_work
+    work_years = years_now.year - year
+    return work_years
 
 
 def get_index_html(year, wines):
@@ -45,7 +39,8 @@ def get_index_html(year, wines):
 
 if __name__ == '__main__':
     foundation_year = 1920
-    years_work = work_years(foundation_year)
+
+    years_work = get_work_years(foundation_year)
     wines = get_wines('wine3.xlsx')
 
     get_index_html(years_work, wines)
