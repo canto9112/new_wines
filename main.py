@@ -46,7 +46,7 @@ def get_index_html(year, wines):
 if __name__ == '__main__':
     foundation_year = 1920
     years_work = work_years(foundation_year)
-    wines = get_wines('wine2.xlsx')
+    wines = get_wines('wine3.xlsx')
 
     get_index_html(years_work, wines)
 
