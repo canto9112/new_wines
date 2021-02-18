@@ -38,7 +38,7 @@ def fetch_index_html(experience_years, all_products, template_name, homepage, pa
 
 def main():
     foundation_year = 1920
-    products_file = 'wine3.xlsx'
+    products_file = 'wine.xlsx'
     sheet_name = 'Лист1'
     template_name = 'template.html'
     homepage_name = 'index.html'
