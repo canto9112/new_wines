@@ -13,7 +13,8 @@ def get_products(file, table_sheet_name):
     for product in excel_products:
         category = product['Категория']
         products[category].append(product)
-    return products
+    sorted_products = {key: value for key, value in sorted(products.items())}
+    return sorted_products
 
 
 def get_experience_of_work_years(year):
