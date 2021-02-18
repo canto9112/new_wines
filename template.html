@@ -114,7 +114,7 @@
             </p>
           </div>
         </div>
-        {% for category_name, products in wines.items() %}
+        {% for category_name, products in all_products.items() %}
         <h2 class="d-block">{{category_name}}</h2>
         <div class="row">
           {% for product in products %}
