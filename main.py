@@ -19,7 +19,21 @@ def get_products(filename, table_sheet_name):
 
 def get_experience_of_work_years(year):
     current_year = datetime.datetime.now()
-    return current_year.year - year
+    experience_years = current_year.year - year
+    last_digit = experience_years % 10
+    two_last_digit = abs(experience_years) % 100
+    if last_digit == 1:
+        suffix = "год"
+        if two_last_digit == 11:
+            suffix = "лет"
+    elif 2 <= last_digit <= 4:
+        suffix = "года"
+        if 11 <= two_last_digit <= 19:
+            suffix = "лет"
+    else:
+        suffix = "лет"
+    experience_years = f"{experience_years} {suffix}"
+    return experience_years
 
 
 def fetch_index_html(experience_years, all_products, template_name, homepage, path):
@@ -37,8 +51,8 @@ def fetch_index_html(experience_years, all_products, template_name, homepage, pa
 
 
 def main():
-    foundation_year = 1920
-    filename = 'wine.xlsx'
+    foundation_year = 1909
+    filename = 'wine3.xlsx'
     sheet_name = 'Лист1'
     template_name = 'template.html'
     homepage_name = 'index.html'
