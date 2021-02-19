@@ -36,22 +36,30 @@ def get_experience_of_work_years(year):
     return experience_years
 
 
-def fetch_index_html(experience_years, all_products, template_name, homepage, path):
+def get_template(path, template_name):
     env = Environment(
         loader=FileSystemLoader(path),
         autoescape=select_autoescape(['html', 'xml'])
     )
     template = env.get_template(template_name)
+    return template
+
+
+def fetch_rendered_page(template, experience_years, all_products):
     rendered_page = template.render(
         years=experience_years,
         all_products=all_products
     )
+    return rendered_page
+
+
+def fetch_index_html(homepage, rendered_page):
     with open(homepage, 'w', encoding="utf8") as file:
         file.write(rendered_page)
 
 
 def main():
-    foundation_year = 1909
+    foundation_year = 1920
     filename = 'wine3.xlsx'
     sheet_name = 'Лист1'
     template_name = 'template.html'
@@ -61,7 +69,11 @@ def main():
     experience_years = get_experience_of_work_years(foundation_year)
     products = get_products(filename, sheet_name)
 
-    fetch_index_html(experience_years, products, template_name, homepage_name, filepath)
+    template = get_template(filepath, template_name)
+
+    rendered_page = fetch_rendered_page(template, experience_years, products)
+
+    fetch_index_html(homepage_name, rendered_page)
 
     server = HTTPServer(('0.0.0.0', 8000), SimpleHTTPRequestHandler)
     server.serve_forever()
