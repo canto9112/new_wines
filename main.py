@@ -6,8 +6,8 @@ import pandas
 from jinja2 import Environment, FileSystemLoader, select_autoescape
 
 
-def get_products(file, table_sheet_name):
-    excel_data_df = pandas.read_excel(file, sheet_name=table_sheet_name)
+def get_products(filename, table_sheet_name):
+    excel_data_df = pandas.read_excel(filename, sheet_name=table_sheet_name)
     excel_products = excel_data_df.to_dict(orient='record')
     products = collections.defaultdict(list)
     for product in excel_products:
@@ -38,16 +38,16 @@ def fetch_index_html(experience_years, all_products, template_name, homepage, pa
 
 def main():
     foundation_year = 1920
-    products_file = 'wine.xlsx'
+    filename = 'wine.xlsx'
     sheet_name = 'Лист1'
     template_name = 'template.html'
     homepage_name = 'index.html'
-    file_path = '.'
+    filepath = '.'
 
     experience_years = get_experience_of_work_years(foundation_year)
-    products = get_products(products_file, sheet_name)
+    products = get_products(filename, sheet_name)
 
-    fetch_index_html(experience_years, products, template_name, homepage_name, file_path)
+    fetch_index_html(experience_years, products, template_name, homepage_name, filepath)
 
     server = HTTPServer(('0.0.0.0', 8000), SimpleHTTPRequestHandler)
     server.serve_forever()
